@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI, SchemaType } from "@google/generative-ai";
+import { GoogleGenerativeAI, SchemaType, ResponseSchema } from "@google/generative-ai";
 import { UserProfile, Meal, HistoryItem } from "../types";
 
 // ใช้ SDK ตัว Stable
@@ -8,7 +8,7 @@ const flashModelId = "gemini-2.5-flash";
 const proModelId = "gemini-2.5-flash";
 
 // --- Schema Definition (ปรับ Syntax เป็น SchemaType ของตัว Stable) ---
-const mealSchema = {
+const mealSchema: ResponseSchema = {
   type: SchemaType.OBJECT,
   properties: {
     name: { type: SchemaType.STRING, description: "Name of the dish (in Thai)" },
@@ -22,7 +22,7 @@ const mealSchema = {
   required: ["name", "calories", "description"],
 };
 
-const dayPlanSchema = {
+const dayPlanSchema: ResponseSchema = {
   type: SchemaType.OBJECT,
   properties: {
     day: { type: SchemaType.STRING, description: "Day name (e.g., วันจันทร์)" },
@@ -35,7 +35,7 @@ const dayPlanSchema = {
   required: ["day", "breakfast", "lunch", "dinner", "totalCalories"],
 };
 
-const weeklyPlanSchema = {
+const weeklyPlanSchema: ResponseSchema = {
   type: SchemaType.OBJECT,
   properties: {
     days: {
