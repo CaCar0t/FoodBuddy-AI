@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { ChefHat, ArrowRight, Loader2, Mail, Lock, UserPlus, LogIn } from 'lucide-react';
 import { supabase } from '../utils/supabaseClient';
+import { useRouter } from 'next/navigation';
 
 interface AuthProps {
   onLogin?: () => void;
@@ -10,6 +11,7 @@ interface AuthProps {
 }
 
 const Auth: React.FC<AuthProps> = ({ onLogin, onRegister }) => {
+  const router = useRouter();
   const [mode, setMode] = useState<'login' | 'register'>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -46,12 +48,27 @@ const Auth: React.FC<AuthProps> = ({ onLogin, onRegister }) => {
 
       } else {
         // Login Logic
-        const { error: signInError } = await supabase.auth.signInWithPassword({
+        const { data, error: signInError } = await supabase.auth.signInWithPassword({
           email,
           password,
         });
 
         if (signInError) throw signInError;
+
+        // Check if user is admin
+        if (data.user) {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', data.user.id)
+            .single();
+          
+          if (profile?.role === 'admin') {
+            router.push('/admin');
+            return;
+          }
+        }
+
         if (onLogin) onLogin();
       }
     } catch (err: any) {

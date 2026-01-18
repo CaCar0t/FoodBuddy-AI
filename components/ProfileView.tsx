@@ -1,8 +1,10 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { UserProfile, Goal } from '../types';
-import { User, Settings, LogOut, ChevronRight, Heart, History, Shield, Info } from 'lucide-react';
+import { User, Settings, LogOut, ChevronRight, Heart, History, Shield, Info, LayoutDashboard } from 'lucide-react';
+import { supabase } from '../utils/supabaseClient';
+import { useRouter } from 'next/navigation';
 
 interface ProfileViewProps {
   profile: UserProfile;
@@ -10,6 +12,20 @@ interface ProfileViewProps {
 }
 
 const ProfileView: React.FC<ProfileViewProps> = ({ profile, onLogout }) => {
+  const [isAdmin, setIsAdmin] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkAdmin = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+        if (data?.role === 'admin') setIsAdmin(true);
+      }
+    };
+    checkAdmin();
+  }, []);
+
   const menuItems = [
     { icon: <Heart size={20} />, label: 'เมนูโปรด', desc: 'รายการอาหารที่คุณชอบ' },
     { icon: <History size={20} />, label: 'ประวัติการกิน', desc: 'ย้อนดูแคลอรี่ที่ผ่านมา' },
@@ -54,6 +70,21 @@ const ProfileView: React.FC<ProfileViewProps> = ({ profile, onLogout }) => {
 
       {/* Menu List */}
       <div className="space-y-3">
+         {isAdmin && (
+            <button onClick={() => router.push('/admin')} className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 p-4 rounded-2xl shadow-lg shadow-purple-200 flex items-center justify-between text-white hover:scale-[1.02] transition-transform">
+                <div className="flex items-center gap-4">
+                   <div className="p-2 bg-white/20 rounded-xl text-white">
+                      <LayoutDashboard size={20} />
+                   </div>
+                   <div className="text-left">
+                      <div className="font-bold text-sm">Admin Dashboard</div>
+                      <div className="text-xs text-purple-100">จัดการผู้ใช้งานและระบบ</div>
+                   </div>
+                </div>
+                <ChevronRight size={18} className="text-purple-200" />
+             </button>
+         )}
+
          {menuItems.map((item, idx) => (
              <button key={idx} className="w-full bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-between hover:bg-gray-50 transition-colors">
                 <div className="flex items-center gap-4">

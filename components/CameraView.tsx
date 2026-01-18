@@ -95,11 +95,22 @@ const CameraView: React.FC<CameraViewProps> = ({ onAddMeal, onCancel }) => {
              <p className="text-xs text-gray-400 mt-4">รองรับทั้งการถ่ายสดและอัปโหลดรูป</p>
           </div>
         ) : (
-          <div className="w-full h-full relative flex flex-col">
-             <img src={image} alt="Captured" className="w-full h-full object-cover" />
+          <div className="w-full h-full relative flex flex-col bg-black overflow-hidden">
+             {/* Blurred Background */}
+             <div 
+                className="absolute inset-0 bg-cover bg-center blur-2xl opacity-60 scale-110"
+                style={{ backgroundImage: `url(${image})` }}
+             />
+             
+             {/* Main Image */}
+             <img 
+                src={image} 
+                alt="Captured" 
+                className="relative z-10 w-full h-full object-contain p-4 pb-24" 
+             />
              
              {/* Analysis Overlay */}
-             <div className="absolute bottom-0 w-full bg-white rounded-t-[2rem] p-6 shadow-2xl animate-slide-up max-h-[60%] overflow-y-auto">
+             <div className="absolute bottom-0 w-full bg-white rounded-t-[2rem] p-6 shadow-2xl animate-slide-up max-h-[60%] overflow-y-auto z-20">
                 {analyzing ? (
                    <div className="text-center py-8">
                       <div className="w-12 h-12 border-4 border-pink-200 border-t-pink-500 rounded-full animate-spin mx-auto mb-4"></div>

@@ -6,8 +6,10 @@ import Onboarding from '../components/Onboarding';
 import Dashboard from '../components/Dashboard';
 import { UserProfile } from '../types';
 import { supabase } from '../utils/supabaseClient';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
   const [session, setSession] = useState<any>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
