@@ -198,37 +198,7 @@ const weeklyPlan = await generateWeeklyMealPlan(userProfile);
 ```typescript
 const mealData = await analyzeFoodImage(imageBase64, userProfile);
 ```
-
-## 🤝 Contributing
-
-เรายินดีต้อนรับการร่วมสนับสนุน! โปรดติดตามขั้นตอนต่อไปนี้:
-
-1. Fork the repository
-2. สร้าง feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. เปิด Pull Request
-
-## 📄 License
-
-โปรเจกต์นี้อยู่ภายใต้ MIT License - ดูไฟล์ `LICENSE` สำหรับรายละเอียด
-
-## 📞 Contact & Support
-
-- 📧 Email: support@foodbuddy-ai.com
-- 💬 Issues: [GitHub Issues](https://github.com/yourusername/FoodBuddy-AI/issues)
-- 📖 Documentation: [Wiki](https://github.com/yourusername/FoodBuddy-AI/wiki)
-
-## 🎯 Roadmap
-
-- [ ] Mobile app (React Native)
-- [ ] Recipe suggestions based on available ingredients
-- [ ] Integration with fitness trackers
-- [ ] Social features & community meal sharing
-- [ ] Barcode scanning for packaged foods
-- [ ] Offline mode support
-- [ ] Multi-language support
-
 ---
 
 **Made with ❤️ by the FoodBuddy AI Team**
+
